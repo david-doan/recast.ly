@@ -3,8 +3,19 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      currVideo: {},
-      videoList: []
+      currVideo: window.exampleVideoData[0],
+      videoList: window.exampleVideoData
+    };
+
+    this.search = _.debounce(props.searchYouTube, 500);
+
+    this.onSuccess = function(videos) {
+      this.setState({
+        currVideo: videos[0],
+        videoList: videos
+      });
+
+      this.render();
     };
   }
 
@@ -14,13 +25,8 @@ class App extends React.Component {
       max: 5,
       key: window.YOUTUBE_API_KEY
     };
-    var callback = function(videos) {
-      this.setState({
-        currVideo: videos[0],
-        videoList: videos
-      });
-    };
-    this.props.searchYouTube(options, callback.bind(this));
+
+    this.props.searchYouTube(options, this.onSuccess.bind(this));
   }
 
   videoClick(video) {
@@ -29,15 +35,21 @@ class App extends React.Component {
     });
     this.render();
   }
+  
+  flagSearch(event) {
+    var options = {
+      query: event.target.value,
+      max: 5,
+      key: window.YOUTUBE_API_KEY
+    };
 
-  flagProperty(){
-    console.log('hello');
+    this.search( options, this.onSuccess.bind(this) );    
   }
 
   render() {
     return (
       <div>
-        <Nav />
+        <Nav flagSearch = {this.flagSearch.bind(this)}/>
         <div className="col-md-7">
           <VideoPlayer video = {this.state.currVideo} />
         </div>
