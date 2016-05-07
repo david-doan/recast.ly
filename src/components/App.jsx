@@ -35,8 +35,7 @@ class App extends React.Component {
     this.setState({
       currVideo: video
     });
-    debugger;
-    this.getDescription();
+    this.getDescription(video);
   }
   
   flagSearch(event) {
@@ -51,8 +50,8 @@ class App extends React.Component {
   }
 
   
-  getDescription () {
-    var videoID = this.state.currVideo.id.videoId;
+  getDescription (video) {
+    var videoID = video.id.videoId;
     var options = {
       type: 'videos',
       id: videoID,
