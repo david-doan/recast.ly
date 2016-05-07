@@ -12,7 +12,8 @@ class App extends React.Component {
     this.onSuccess = function(videos) {
       this.setState({
         currVideo: videos[0],
-        videoList: videos
+        videoList: videos,
+        currDescription: ''
       });
 
       this.render();
@@ -34,10 +35,8 @@ class App extends React.Component {
     this.setState({
       currVideo: video
     });
-
-
-
-    this.render();
+    debugger;
+    this.getDescription();
   }
   
   flagSearch(event) {
@@ -51,13 +50,33 @@ class App extends React.Component {
     this.search( options, this.onSuccess.bind(this) );    
   }
 
+  
+  getDescription () {
+    var videoID = this.state.currVideo.id.videoId;
+    var options = {
+      type: 'videos',
+      id: videoID,
+      key: window.YOUTUBE_API_KEY
+    };
+    this.props.searchYouTube(options, this.returnDescription.bind(this));
+  }
+
+  returnDescription (data) {
+    this.setState({
+      currDescription: data[0].snippet.description
+    }); 
+
+    this.render();
+  }
+
+
   render() {
     return (
       <div>
         <Nav flagSearch = {this.flagSearch.bind(this)}/>
         <div className="col-md-7">
           <VideoPlayer video = {this.state.currVideo} />
-          <VideoDetails searchYouTube = {this.props.searchYouTube} video = {this.state.currVideo} /> 
+          <VideoDetails currDescription = {this.state.currDescription} /> 
         </div>
         <div className="col-md-5">
           <VideoList videos = {this.state.videoList} videoClick = {this.videoClick.bind(this)} />
