@@ -3,9 +3,24 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      currVideo: window.exampleVideoData[0],
-      videoList: window.exampleVideoData
+      currVideo: {},
+      videoList: []
     };
+  }
+
+  componentDidMount() {
+    var options = {
+      query: 'hello world',
+      max: 5,
+      key: window.YOUTUBE_API_KEY
+    };
+    var callback = function(videos) {
+      this.setState({
+        currVideo: videos[0],
+        videoList: videos
+      });
+    };
+    this.props.searchYouTube(options, callback.bind(this));
   }
 
   videoClick(video) {
