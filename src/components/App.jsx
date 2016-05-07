@@ -21,6 +21,7 @@ class App extends React.Component {
 
   componentDidMount() {
     var options = {
+      type: 'search',
       query: 'hello world',
       max: 5,
       key: window.YOUTUBE_API_KEY
@@ -33,11 +34,15 @@ class App extends React.Component {
     this.setState({
       currVideo: video
     });
+
+
+
     this.render();
   }
   
   flagSearch(event) {
     var options = {
+      type: 'search',
       query: event.target.value,
       max: 5,
       key: window.YOUTUBE_API_KEY
@@ -52,6 +57,7 @@ class App extends React.Component {
         <Nav flagSearch = {this.flagSearch.bind(this)}/>
         <div className="col-md-7">
           <VideoPlayer video = {this.state.currVideo} />
+          <VideoDetails searchYouTube = {this.props.searchYouTube} video = {this.state.currVideo} /> 
         </div>
         <div className="col-md-5">
           <VideoList videos = {this.state.videoList} videoClick = {this.videoClick.bind(this)} />

@@ -1,11 +1,19 @@
 var searchYouTube = (options, callback) => {
   // TODO
-  var urlStr = 'https://www.googleapis.com/youtube/v3/search?part=snippet'
-                    + `&maxResults=${options.max}` 
+  var urlStr = 'https://www.googleapis.com/youtube/v3/'
+                    + `${options.type}`
+                    + '?part=snippet'
+                    + `&key=${options.key}`;
+
+  if (options.type === 'search') {
+    urlStr += `&maxResults=${options.max}`
                     + '&type=video'
                     + '&videoEmbeddable=true'
-                    + `&q=${options.query}`
-                    + `&key=${options.key}`;
+                    + `&q=${options.query}`;
+  } else if (options.type === 'videos') {
+    urlStr += `&id=${options.id}`;
+  }
+
   $.ajax({
     // This is the url you should use to communicate with the parse API server.
     url: urlStr,
