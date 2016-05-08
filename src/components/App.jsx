@@ -24,7 +24,7 @@ class App extends React.Component {
     var options = {
       type: 'search',
       query: 'hello world',
-      max: 5,
+      max: 50,
       key: window.YOUTUBE_API_KEY
     };
 
@@ -42,7 +42,7 @@ class App extends React.Component {
     var options = {
       type: 'search',
       query: event.target.value,
-      max: 5,
+      max: 50,
       key: window.YOUTUBE_API_KEY
     };
 
